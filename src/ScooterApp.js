@@ -85,6 +85,7 @@ class ScooterApp {
     if(!stationCheck){ throw new Error("no such station") }
   }
 
+  // need to refactor (removed user as parameter for Scooter)
   rentScooter(scooter, user){
     for (const[key, value] of Object.entries(this.stations)){
       

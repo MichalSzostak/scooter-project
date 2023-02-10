@@ -11,15 +11,14 @@ class Scooter{
     this.isBroken = false;
   }
 
-  rent(user){
+  rent(){
     if(this.isBroken){
       throw new Error('Scooter is broken!')
     }
     if(this.charge<20){
       throw new Error('Scooter needs charging!')
     }
-    this.user = user;
-    this.station = null;
+    return true;
   }
 
   dock(station){
@@ -28,7 +27,7 @@ class Scooter{
   }
 
   async recharge(){
-    console.log(`Starting charge... [${this.charge}%]`);
+    console.log(`Charging... [${this.charge}%]`);
     while(this.charge<100){
       await new Promise(resolve => setTimeout(resolve, 200)); 
       this.charge = this.charge + 10;
@@ -42,12 +41,11 @@ class Scooter{
     console.log('Requesting repair...')
     for(let i=5; i>=0; i--){
       console.log(`Repairs commencing in ${i}s...`)
-      await new Promise(resolve => setTimeout(resolve, 1000)); 
+      await new Promise(resolve => setTimeout(resolve, 100)); 
     }
-    console.log('Magic happening...')
+    console.log('Repairing...')
     this.isBroken = false;
-    console.log('Repairs complete!')
-    await new Promise(resolve => setTimeout(resolve, 100)); 
+    console.log('Repairs complete!') 
   }
 }
 
