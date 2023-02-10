@@ -4,12 +4,15 @@ const Scooter = require('./Scooter')
 class ScooterApp {
   
   constructor(){
+
     this.stations = {
         Buchanan_street_station : [],
         Sauchiehall_street_station : [],
         Saltmarket_street_station : [],
       };
+
     this.registeredUsers = {};
+
   }
 
   registerUser(username, password, age){
@@ -36,14 +39,15 @@ class ScooterApp {
   }
 
   createScooter(station){
-    const tempScooter = new Scooter(station, nextSerial);
+    const tempScooter = new Scooter(station);
     let stationCheck = false;
     for (const[key, value] of Object.entries(this.stations)){
       if(station == key){
         value.push(tempScooter);
         this.nextSerial++;
         stationCheck = true;
-        break;
+        console.log('created new scooter');
+        return tempScooter;test_scooterApp
       }
     }
     if(!stationCheck){
@@ -69,12 +73,11 @@ class ScooterApp {
       if(dockedCheck) {break;}
 
       if(station == key){
-
-        
         scooter.station = key;
         scooter.user = null;
         value.push(scooter);
         stationCheck = true;
+        console.log('scooter is docked');
       }
 
     }
@@ -83,12 +86,48 @@ class ScooterApp {
   }
 
   rentScooter(scooter, user){
+    for (const[key, value] of Object.entries(this.stations)){
+      
+      let dockedCheck = false;
 
+      for(let i =0; i<value.length; i++){
+        if(value[i].serial == scooter.serial){
+          value.splice(i,1)
+          dockedCheck = true;
+        }
+      }
+
+      if(dockedCheck){
+        scooter.station = null;
+        scooter.user = user;
+        console.log('scooter is rented')
+      }
+
+      if(!dockedCheck){
+        console.log('scooter is already rented')
+      }
+
+    }
   }
 
   print(){
+    this.logger("Registered users: \n")
+    for (const [key, value] of Object.entries(this.registeredUsers)) {
+      this.logger(`${value}`);
+    }
+
+    this.logger("Stations: \n")
+    for (const [key, value] of Object.entries(this.stations)) {
+      this.logger(`${key}: ${value.length}`);
+    }
 
   }
+
+  logger(text){
+    console.log(text)
+  }
+  
+  
 
 }
 

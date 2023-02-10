@@ -28,7 +28,8 @@ describe('User class: ', () => {
                 test_user.loggedIn = false;
                 test_user.login('test_password');
                 expect(test_user.loggedIn).toBe(true);
-            });        
+            });      
+              
             it('throws error if password is wrong', () => {
                 test_user.loggedIn = false;
                 expect(() => {

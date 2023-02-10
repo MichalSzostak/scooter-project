@@ -65,7 +65,6 @@ describe('Scooter class: ', () => {
             it('on success makes Scooter.user instance of User', () => {
                 expect(test_scooter2.user).toBeInstanceOf(User);
             })
-
         })
 
         describe('dock(station): ', () => {

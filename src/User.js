@@ -19,7 +19,6 @@ class User {
   logout(){
     this.loggedIn = false;
   }
-  
 }
 
 module.exports = User
