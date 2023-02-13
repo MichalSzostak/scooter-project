@@ -6,6 +6,7 @@ class ScooterApp {
   constructor(){
 
     this.stations = {
+        test_station : [],
         Buchanan_street_station : [],
         Sauchiehall_street_station : [],
         Saltmarket_street_station : [],
@@ -16,8 +17,16 @@ class ScooterApp {
   }
 
   registerUser(username, password, age){
+    
+    if(age<18){
+      throw new Error("users must be at least 18 years old")
+    }
+    
+    if(this.registeredUsers.hasOwnProperty(username)){
+      throw new Error("username already registered")
+    }
     const tempUser = new User(username, password, age);
-    this.registeredUsers[String(username)] = tempUser;
+    this.registeredUsers[username] = tempUser;
   }
 
   loginUser(username, password){
@@ -47,7 +56,7 @@ class ScooterApp {
         this.nextSerial++;
         stationCheck = true;
         console.log('created new scooter');
-        return tempScooter;test_scooterApp
+        return tempScooter;
       }
     }
     if(!stationCheck){
@@ -58,78 +67,67 @@ class ScooterApp {
 
 
   dockScooter(scooter, station){
-    let stationCheck = false;
+    
     for (const[key, value] of Object.entries(this.stations)){
-      
-      let dockedCheck = false;
-
-      for(let i =0; i<value.length; i++){
-        if(value[i].serial == scooter.serial){
-          dockedCheck = true;
-          throw new Error("scooter already at station");
+      if(station == key){
+        for(let i = 0; i < value.length; i++){
+          if(scooter.serial == value[i].serial){
+            throw new Error(`scooter no.${scooter.serial} already docked at ${station}`)
+          }
+          scooter.user(null);
+          value.push(scooter);
+          console.log(`scooter no.${scooter.serial} succesfully docked at ${station}`)
         }
       }
-
-      if(dockedCheck) {break;}
-
-      if(station == key){
-        scooter.station = key;
-        scooter.user = null;
-        value.push(scooter);
-        stationCheck = true;
-        console.log('scooter is docked');
-      }
-
     }
-
-    if(!stationCheck){ throw new Error("no such station") }
+    throw new Error("no such station") 
   }
+}
 
   // need to refactor (removed user as parameter for Scooter)
-  rentScooter(scooter, user){
-    for (const[key, value] of Object.entries(this.stations)){
+  // rentScooter(scooter, user){
+  //   for (const[key, value] of Object.entries(this.stations)){
       
-      let dockedCheck = false;
+  //     let dockedCheck = false;
 
-      for(let i =0; i<value.length; i++){
-        if(value[i].serial == scooter.serial){
-          value.splice(i,1)
-          dockedCheck = true;
-        }
-      }
+  //     for(let i =0; i<value.length; i++){
+  //       if(value[i].serial == scooter.serial){
+  //         value.splice(i,1)
+  //         dockedCheck = true;
+  //       }
+  //     }
 
-      if(dockedCheck){
-        scooter.station = null;
-        scooter.user = user;
-        console.log('scooter is rented')
-      }
+  //     if(dockedCheck){
+  //       scooter.station = null;
+  //       scooter.user = user;
+  //       console.log('scooter is rented')
+  //     }
 
-      if(!dockedCheck){
-        console.log('scooter is already rented')
-      }
+  //     if(!dockedCheck){
+  //       console.log('scooter is already rented')
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
-  print(){
-    this.logger("Registered users: \n")
-    for (const [key, value] of Object.entries(this.registeredUsers)) {
-      this.logger(`${value}`);
-    }
 
-    this.logger("Stations: \n")
-    for (const [key, value] of Object.entries(this.stations)) {
-      this.logger(`${key}: ${value.length}`);
-    }
+  // print(){
+    
+  //   this.logger("Registered users: \n")
+  //   for (const [key, value] of Object.entries(this.registeredUsers)) {
+  //     this.logger(`${value}`);
+  //   }
 
-  }
+  //   this.logger("Stations: \n")
+  //   for (const [key, value] of Object.entries(this.stations)) {
+  //     this.logger(`${key}: ${value.length}`);
+  //   }
+  // }
 
-  logger(text){
-    console.log(text)
-  }
+
   
   
 
-}
+
 
 module.exports = ScooterApp

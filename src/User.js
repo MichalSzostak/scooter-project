@@ -1,10 +1,30 @@
 class User {
   
   constructor(username, password, age){
-    this.username = username;
-    this.password = password;
-    this.age = age;
-    this.loggedIn = false;
+    this._username = username;
+    this._password = password;
+    this._age = age;
+    this._loggedIn = false;
+  }
+
+  get username(){
+    return this._username
+  }
+
+  get password(){
+    return this._password
+  }
+
+  get age(){
+    return this._age
+  }
+
+  get loggedIn(){
+    return this._loggedIn
+  }
+
+  set loggedIn(bool){
+    this._loggedIn = bool
   }
 
   login(password){
@@ -17,7 +37,7 @@ class User {
   }
 
   logout(){
-    this.loggedIn = false;
+    this.loggedIn = false
   }
 }
 
